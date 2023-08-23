@@ -1,0 +1,92 @@
+@font-face {
+    font-family: rashi;
+    src: url("/resources/RashiAmiti.ttf");
+}
+
+@font-face {
+    font-family: basic;
+    src: url("/resources/NotoSerifHebrew-Regular.ttf");
+}
+
+:root {
+    --offset: 15px;
+}
+
+* {
+    /* border: 2px solid black; */
+}
+
+#pages {
+    overflow: auto;
+    justify-content: center;
+    direction: rtl;
+    gap: 20px;
+}
+
+.right, .left {
+    margin: 0 auto;
+    width: 400px;
+    height: 600px;
+    overflow: hidden;
+    display: inline-block;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.header {
+    display: flex;
+    padding: 0px 10px 0px 10px;
+    justify-content: center;
+    direction: ltr;
+}
+
+.hLeft {
+    margin-right: auto;
+}
+
+.hCenter {
+    text-align: center;
+    font-weight: bold;
+}
+
+.hRight {
+    margin-left: auto;
+}
+
+.double {
+    display: flow-root;
+}
+
+.contentHeading {
+    font-size: 12px;
+    line-height: initial;
+    text-align: center;
+    text-align-last: center;
+}
+
+.leftContent, .rightContent, .content {
+    display: none;
+    padding: 0px 10px 5px 10px;
+    height: fit-content;
+    text-align: justify;
+    text-align-last: right;
+}
+
+.verseNo {
+    vertical-align: text-top;
+    font-size: 70%;
+    text-decoration: underline;
+}
+
+.default {
+    line-height: 100%;
+}
+
+.rashi {
+    font-family: "rashi";
+    line-height: 110%;
+}
+
+.simple {
+    font-family: "basic";
+}

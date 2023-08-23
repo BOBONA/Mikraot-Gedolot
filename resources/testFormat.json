@@ -1,0 +1,27 @@
+{
+    "mirrorPage": true,
+    "right": [
+        {
+            "type": "header"
+        },
+        {
+            "type": "double",
+            "spacing": 37,
+            "right": {
+                "main": true,
+                "fontSize": "x-large"
+            }
+        },
+        {
+            "type": "double"
+        },
+        {
+            "type": "single",
+            "columns": 1
+        },
+        {
+            "type": "single",
+            "columns": 2
+        }
+    ]
+}
