@@ -99,7 +99,8 @@ async function fetchDetailedIndex(ref) {
     let response = res.data;
     let indexEntry = {};
     indexEntry.multiSection = response.schema.nodes !== undefined;
-    indexEntry.depth = response.schema.depth || 2;
+    indexEntry.depth = (response.schema.nodes === undefined ? response.schema.depth :
+                        response.schema.nodes[0].depth) || 2;
     if (indexEntry.multiSection) {
         indexEntry.title = [];
         indexEntry.hebrewTitle = [];
@@ -206,14 +207,20 @@ function compareLocations(a, b) {
     return 0;
 }
 
-function processTextArray(container, array, pointer) {
+// a recursive procedure for building an array of verses with their locations
+// the array is processed into the container, each location begins with pointer, depth and queryStart are used because of Sefaria's variable responses
+function processTextArray(container, array, pointer, depth, queryStart) {
     for (let e in array) {
-        let updated = [...pointer, parseInt(e) + 1];
+        let loc = parseInt(e) + 1;
+        if (pointer.length + 2 === depth) { // finnicky way of checking
+            loc = (queryStart[pointer.length] || 1) + parseInt(e);
+        }
+        let updated = [...pointer, loc];
         let el = array[e];
         if (typeof el === "string") {
             container.push({index: updated.join("."), location: updated, data: el});
         } else {
-            processTextArray(container, el, updated);
+            processTextArray(container, el, updated, depth, queryStart);
         }
     }
 }
@@ -236,8 +243,8 @@ async function fetchSource(ref, range) {
                 hiddenLocation.push(range.start[i]);
             }
         }
-        processTextArray(cached.source[ref].hebrew, data.he, hiddenLocation);
-        processTextArray(cached.source[ref].english, data.text, hiddenLocation);
+        processTextArray(cached.source[ref].hebrew, data.he, hiddenLocation, refIndex.depth, range.start);
+        processTextArray(cached.source[ref].english, data.text, hiddenLocation, refIndex.depth, range.start);
     }
     cached.pastQueries[query] = true;
     return getRangeFromCache(ref, range);

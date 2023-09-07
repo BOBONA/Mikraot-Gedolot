@@ -51,7 +51,7 @@ function getHebrewVerseNumber(number) {
 function formatText(text, location, midway=false) {
     let string = text;
     const chapIndex = 1;
-    if (!midway && location[chapIndex] !== undefined && !(location[chapIndex + 1] > 1)) {
+    if (!midway && location[chapIndex] !== undefined && !(location[chapIndex + 1] > 1) && text.trim().length > 0) {
         string = `<span class="verseNo">${getHebrewVerseNumber(location[chapIndex])}</span> ${string}`;
     }
     string += " ";
