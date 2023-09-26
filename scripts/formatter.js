@@ -24,24 +24,27 @@ let sourceData = {};
 // Gets the Hebrew representation of a verse number
 function getHebrewVerseNumber(number) {
     let result = "";
-    if (1 <= number && number <= 10) {
-        result = HEBREW_LETTERS[number - 1];
-    } else if (11 <= number) {
-        let hundreds = Math.floor(number / 100);
-        number = number % 100;
-        if (hundreds > 0) {
-            result += HEBREW_LETTERS[17 + hundreds];
+    while (Math.floor(number / 400) > 0) {
+        result = result + HEBREW_LETTERS[21];
+        number -= 400;
+    }
+    let hundreds = Math.floor(number / 100);
+    if (hundreds > 0) {
+        result = result + HEBREW_LETTERS[17 + hundreds];
+        number -= 100 * hundreds;
+    }
+    if (number === 16) {
+        result = result + HEBREW_LETTERS[8] + HEBREW_LETTERS[6];
+    } else if (number === 15) {
+        result = result + HEBREW_LETTERS[8] + HEBREW_LETTERS[5];
+    } else {
+        let tens = Math.floor(number / 10);
+        if (tens > 0) {
+            result = result + HEBREW_LETTERS[8 + tens];
+            number -= 10 * tens;
         }
-        if (number === 15) {
-            return "\u05D8\u05D5"; // ��
-        } else if (number === 16) {
-            return "\u05D8\u05D6"; // ��
-        } else {
-            result += HEBREW_LETTERS[8 + Math.floor(number / 10)];
-            let remainder = number % 10;
-            if (remainder > 0) {
-                result += HEBREW_LETTERS[remainder - 1];
-            }
+        if (number > 0) {
+            result = result + HEBREW_LETTERS[number - 1];
         }
     }
     return result;
@@ -58,8 +61,7 @@ function formatText(text, location, midway=false) {
     return string;
 }
 
-function checkOverflow(el)
-{
+function checkOverflow(el) {
     var curOverflow = el.style.overflow;
 
     if ( !curOverflow || curOverflow === "visible" )
@@ -79,7 +81,7 @@ function createElement(type, className) {
     return el;
 }
 
-function renderModule(el, module, addReference=false) {
+function renderSourceModule(el, module, addReference=false) {
     if (module.main === true) {
         el.classList.add("main");
     }
@@ -127,8 +129,8 @@ function renderTemplate(template, location, side="right", addReferences=false) {
                 element.className = "double";
                 let leftCon = createElement("div", "leftContent");
                 let rightCon = createElement("div", "rightContent");
-                renderModule(leftCon, row.left, addReferences);
-                renderModule(rightCon, row.right, addReferences);
+                renderSourceModule(leftCon, row.left, addReferences);
+                renderSourceModule(rightCon, row.right, addReferences);
                 if (addReferences && mirror) { 
                     row = Object.assign({}, row); // don't want to modify the template
                     let temp = row.left;
@@ -141,7 +143,7 @@ function renderTemplate(template, location, side="right", addReferences=false) {
             case "single":
                 element.className = "single";
                 let single = createElement("div", "content");
-                renderModule(single, row, addReferences);
+                renderSourceModule(single, row, addReferences);
                 element.appendChild(single);
                 break;
         }

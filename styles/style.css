@@ -16,6 +16,10 @@
     /* border: 2px solid black; */
 }
 
+h1 {
+    text-align: center;
+}
+
 #pages {
     overflow: auto;
     justify-content: center;

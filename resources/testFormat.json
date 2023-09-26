@@ -16,12 +16,10 @@
             "type": "double"
         },
         {
-            "type": "single",
-            "columns": 1
+            "type": "single"
         },
         {
-            "type": "single",
-            "columns": 2
+            "type": "single"
         }
     ]
 }
