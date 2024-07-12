@@ -12,6 +12,10 @@
     --offset: 15px;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 * {
     /* border: 2px solid black; */
 }
@@ -21,6 +25,8 @@ h1 {
 }
 
 #pages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, max-content));
     overflow: auto;
     justify-content: center;
     direction: rtl;
