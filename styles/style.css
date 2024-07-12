@@ -29,12 +29,13 @@ h1 {
 
 .right, .left {
     margin: 0 auto;
+    margin-top: 50px;
     width: 400px;
     height: 600px;
-    overflow: hidden;
-    display: inline-block;
+    float: inline-start;
     flex-direction: column;
     align-items: stretch;
+    break-inside: avoid;
 }
 
 .header {
